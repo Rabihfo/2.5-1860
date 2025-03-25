@@ -1,0 +1,17 @@
+function Sys.shiftLeft 0
+    push argument 0  // Load x
+    push argument 1  // Load y
+    label LOOP
+    if-goto END      // If y == 0, stop shifting
+    push argument 0
+    push constant 2
+    call Math.multiply 2  // x * 2
+    pop argument 0
+    push argument 1
+    push constant 1
+    sub
+    pop argument 1
+    goto LOOP
+    label END
+    push argument 0
+    return
