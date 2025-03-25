@@ -1,29 +1,42 @@
 function Sys.xor 0
-    push argument 0  // First argument
-    push argument 1  // Second argument
-    not
-    push argument 1
-    and
+    push argument 0   // A
+    push argument 1   // B
+
     push argument 0
     not
     push argument 1
-    and
-    or
+    and                // (~A) & B
+
+    push argument 0
+    push argument 1
+    not
+    and                // A & (~B)
+
+    or                 // [(~A) & B] | [A & (~B)]
     return
 function Sys.shiftLeft 0
-    push argument 0  // Load x
-    push argument 1  // Load y
+    push argument 0   // Load x
+    push argument 1   // Load y
+
     label LOOP
-    if-goto END      // If y == 0, stop shifting
+    push argument 1
+    if-goto CONTINUE  // If y != 0, continue shifting
+    goto END          // If y == 0, exit
+
+    label CONTINUE
     push argument 0
     push constant 2
-    call Math.multiply 2  // x * 2
-    pop argument 0
+    call Math.multiply 2  // Multiply x by 2
+    pop argument 0        // Store the result in x
+
     push argument 1
     push constant 1
-    sub
+    sub                   // Decrease y by 1
     pop argument 1
-    goto LOOP
+
+    goto LOOP             // Repeat until y == 0
+
     label END
-    push argument 0
+    push argument 0       // Push final result to stack
     return
+    
